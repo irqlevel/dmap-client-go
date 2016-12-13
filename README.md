@@ -11,6 +11,7 @@ if err != nil {
 	panic(err)
 }
 defer client.Close()
+
 err = client.SetKey("mykey", "myvalue")
 ...
 value, err := client.GetKey("mykey")

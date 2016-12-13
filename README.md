@@ -18,3 +18,8 @@ value, err := client.GetKey("mykey")
 value, err := client.CmpxchgKey("mykey", "newvalue", "myvalue")
 ...
 ```
+
+####Test:
+```sh
+cd client && go test
+```

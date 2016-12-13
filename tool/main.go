@@ -28,9 +28,7 @@ func main() {
 	host := os.Args[1]
 	cmd := os.Args[2]
 
-	client := new(client.Client)
-	client.Init(host)
-
+	client := client.NewClient(host)
 	if cmd == "set" {
 		if len(os.Args) != 5 {
 			Usage(1)

@@ -180,8 +180,10 @@ func (resp *DmapRespCmpxchgKey) ParseBytes(body []byte) error {
 	return nil
 }
 
-func (client *Client) Init(host string) {
-	client.Host = host
+func NewClient(host string) *Client {
+	client := new(Client)
+	client.Host = host;
+	return client
 }
 
 func (client *Client) Dial() error {
@@ -334,6 +336,16 @@ func (client *Client) SetKey(key string, value string) error {
 	return nil
 }
 
+func getString(bytes []byte) string {
+	for i, _ := range bytes {
+		if bytes[i] == 0 {
+			return string(bytes[:i])
+		}
+	}
+
+	return string(bytes[:len(bytes)])
+}
+
 func (client *Client) GetKey(key string) (string, error) {
 	req := new(DmapReqGetKey)
 	resp := new(DmapRespGetKey)
@@ -350,7 +362,7 @@ func (client *Client) GetKey(key string) (string, error) {
 		return "", err
 	}
 
-	return string(resp.Value[:len(resp.Value)]), nil
+	return getString(resp.Value[:len(resp.Value)]), nil
 }
 
 func (client *Client) DelKey(key string) error {
@@ -429,7 +441,7 @@ func (client *Client) CmpxchgKey(key string, exchange string,
 		return "", err
 	}
 
-	return string(resp.Value[:len(resp.Value)]), nil
+	return getString(resp.Value[:len(resp.Value)]), nil
 }
 
 func (client *Client) Close() {
